@@ -5,6 +5,10 @@ const CACHE_DURATION = 60_000; // 60 seconds
 
 const cache = new Map<string, { data: unknown; timestamp: number }>();
 
+export function clearCache() {
+  cache.clear();
+}
+
 async function fetchWithCache<T>(url: string): Promise<T> {
   const cached = cache.get(url);
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
