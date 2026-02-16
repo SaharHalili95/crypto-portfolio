@@ -118,7 +118,7 @@ export default function CoinDetail() {
               <Tooltip
                 contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: 8, fontSize: 13 }}
                 labelStyle={{ color: '#94a3b8' }}
-                formatter={(v: number) => [formatPrice(v), 'Price']}
+                formatter={(v: number | undefined) => [formatPrice(v ?? 0), 'Price']}
               />
               <Line type="monotone" dataKey="price" stroke={priceUp ? '#10B981' : '#EF4444'} strokeWidth={2} dot={false} />
             </LineChart>
