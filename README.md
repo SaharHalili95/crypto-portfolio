@@ -1,73 +1,110 @@
-# React + TypeScript + Vite
+# CryptoPortfolio - Crypto Investment Tracker & Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)
+![Tested](https://img.shields.io/badge/tests-vitest-6E9F18?logo=vitest&logoColor=white)
 
-Currently, two official plugins are available:
+Real-time cryptocurrency tracking dashboard with virtual portfolio management. Track the top 100 coins, simulate trades with a $10K virtual balance, and analyze the market - all powered by live CoinGecko data.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**[Live Demo](https://saharhalili95.github.io/crypto-portfolio/)**
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Dashboard
+- Top 100 cryptocurrencies ranked by market cap
+- Sortable columns: price, 24h/7d change, market cap, volume
+- Inline 7-day sparkline charts per coin
+- Real-time search and filtering
+- Auto-refresh every 60 seconds
 
-## Expanding the ESLint configuration
+### Coin Detail
+- Interactive price charts with 24h / 7d / 30d / 1y time ranges
+- 12-stat grid: market cap, volume, ATH, ATL, supply, and more
+- One-click buy with live USD cost preview
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Portfolio
+- Paper trading with **$10,000 virtual balance**
+- Holdings table with real-time P&L tracking
+- Pie chart showing portfolio allocation
+- Full transaction history (buy/sell)
+- Net worth and total P&L summary
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Watchlist
+- Star coins from any page to track them
+- Card grid with price, sparkline, and market data
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Market Heatmap
+- Top 50 coins visualized as colored blocks
+- Block size = market cap, color = 24h price change
+- Clickable for quick navigation to coin details
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Additional
+- **Dark/Light theme** with smooth transitions
+- **Global search** with live dropdown results
+- **Responsive design** with mobile hamburger menu
+- **Client-side caching** (60s TTL) to minimize API calls
+- **localStorage persistence** for portfolio, watchlist, and theme
+
+## Tech Stack
+
+- **Framework:** React 19 + React Router 7
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS 4
+- **Charts:** Recharts
+- **Icons:** Lucide React
+- **Build Tool:** Vite 7
+- **Testing:** Vitest + Testing Library
+- **API:** CoinGecko v3 (free, no key required)
+- **Deployment:** GitHub Pages
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Project Structure
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── components/          # Reusable UI components
+│   ├── Header.tsx       # Navigation, search, theme toggle
+│   ├── SparklineChart.tsx
+│   ├── PriceChange.tsx
+│   └── FormatNumber.tsx
+├── pages/               # Route pages
+│   ├── Dashboard.tsx    # Top 100 coins table
+│   ├── CoinDetail.tsx   # Individual coin view
+│   ├── Portfolio.tsx    # Holdings and transactions
+│   ├── Watchlist.tsx    # Watched coins grid
+│   └── Heatmap.tsx      # Market cap heatmap
+├── context/             # React Context providers
+│   ├── ThemeContext.tsx
+│   ├── PortfolioContext.tsx
+│   └── WatchlistContext.tsx
+├── hooks/               # Custom data-fetching hooks
+│   ├── useCoins.ts
+│   ├── useCoinDetail.ts
+│   └── useCoinChart.ts
+├── services/
+│   └── api.ts           # CoinGecko API client with caching
+├── types/
+│   └── index.ts         # TypeScript interfaces
+└── test/                # Test suites (7 files)
+```
+
+## License
+
+MIT
