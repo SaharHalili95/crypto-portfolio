@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { BarChart3, Sun, Moon, Search, Menu, X } from 'lucide-react';
+import { BarChart3, Sun, Moon, Search, Menu, X, Bell } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import { useAlerts } from '../context/AlertContext';
 import { searchCoins } from '../services/api';
 
 export default function Header() {
   const { dark, toggle } = useTheme();
+  const { activeCount } = useAlerts();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<{ id: string; name: string; symbol: string; thumb: string }[]>([]);
@@ -34,6 +36,7 @@ export default function Header() {
     { to: '/portfolio', label: 'Portfolio' },
     { to: '/watchlist', label: 'Watchlist' },
     { to: '/heatmap', label: 'Heatmap' },
+    { to: '/alerts', label: 'Alerts' },
   ];
 
   return (
@@ -46,8 +49,8 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center gap-1 ml-4">
           {navLinks.map(l => (
-            <Link key={l.to} to={l.to} className="px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-dark-muted hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-dark-card transition-colors">
-              {l.label}
+            <Link key={l.to} to={l.to} className="relative px-3 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-dark-muted hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-dark-card transition-colors">
+              {l.label === 'Alerts' ? <span className="flex items-center gap-1"><Bell className="w-4 h-4" />{l.label}{activeCount > 0 && <span className="bg-yellow-400 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold">{activeCount}</span>}</span> : l.label}
             </Link>
           ))}
         </nav>

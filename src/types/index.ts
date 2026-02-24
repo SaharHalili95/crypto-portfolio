@@ -89,5 +89,17 @@ export interface PortfolioState {
   transactions: Transaction[];
 }
 
+export interface PriceAlert {
+  id: string;
+  coinId: string;
+  symbol: string;
+  name: string;
+  targetPrice: number;
+  condition: 'above' | 'below';
+  createdAt: string;
+  triggered: boolean;
+  triggeredAt?: string;
+}
+
 export type SortField = 'market_cap_rank' | 'current_price' | 'price_change_percentage_24h' | 'price_change_percentage_7d_in_currency' | 'market_cap' | 'total_volume';
 export type SortDirection = 'asc' | 'desc';

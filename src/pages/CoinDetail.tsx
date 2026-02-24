@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { Star, ShoppingCart } from 'lucide-react';
+import { Star, ShoppingCart, Bell } from 'lucide-react';
 import { useCoinDetail } from '../hooks/useCoinDetail';
 import { useCoinChart } from '../hooks/useCoinChart';
 import { useWatchlist } from '../context/WatchlistContext';
 import { usePortfolio } from '../context/PortfolioContext';
+import { useAlerts } from '../context/AlertContext';
+import AlertForm from '../components/AlertForm';
 import LoadingSpinner from '../components/LoadingSpinner';
 import PriceChange from '../components/PriceChange';
 import { formatCurrency, formatPrice, formatNumber } from '../components/FormatNumber';
@@ -24,9 +26,12 @@ export default function CoinDetail() {
   const { data: chartData, loading: chartLoading } = useCoinChart(id!, range);
   const { toggle, isWatched } = useWatchlist();
   const portfolio = usePortfolio();
+  const { alerts } = useAlerts();
   const [buyQty, setBuyQty] = useState('');
   const [showBuy, setShowBuy] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [msg, setMsg] = useState('');
+  const coinAlertCount = alerts.filter(a => a.coinId === id && !a.triggered).length;
 
   if (loading) return <LoadingSpinner />;
   if (error || !coin) return <div className="text-center py-20 text-loss">{error || 'Coin not found'}</div>;
@@ -77,6 +82,12 @@ export default function CoinDetail() {
             <button onClick={() => setShowBuy(!showBuy)} className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border border-gain text-gain hover:bg-gain/10 transition-colors">
               <ShoppingCart className="w-4 h-4" /> Buy
             </button>
+            <button onClick={() => setShowAlert(!showAlert)} className={`relative flex items-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${showAlert ? 'border-yellow-400 text-yellow-400 bg-yellow-400/10' : 'border-gray-300 dark:border-dark-border text-gray-600 dark:text-dark-muted hover:border-yellow-400'}`}>
+              <Bell className="w-4 h-4" /> Alert
+              {coinAlertCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-yellow-400 text-black text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold">{coinAlertCount}</span>
+              )}
+            </button>
           </div>
 
           {showBuy && (
@@ -91,6 +102,12 @@ export default function CoinDetail() {
               <span className="text-sm text-gray-500">= {formatPrice((parseFloat(buyQty) || 0) * price)}</span>
               <button onClick={handleBuy} className="px-4 py-1.5 text-sm font-medium rounded-lg bg-gain text-white hover:bg-gain/90 transition-colors">Confirm</button>
               {msg && <span className={`text-sm font-medium ${msg.includes('Bought') ? 'text-gain' : 'text-loss'}`}>{msg}</span>}
+            </div>
+          )}
+
+          {showAlert && (
+            <div className="mb-4">
+              <AlertForm coinId={coin.id} symbol={coin.symbol} name={coin.name} currentPrice={price} onClose={() => setShowAlert(false)} />
             </div>
           )}
         </div>
