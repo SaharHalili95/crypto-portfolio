@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </main>
       <footer className="max-w-7xl mx-auto px-4 pb-8 text-sm text-gray-500 dark:text-gray-400">
         <p>
-          Data provided by{' '}
+          © 2025-2026 Sahar Halili. Data provided by{' '}
           <a href="https://www.coingecko.com/" className="underline">CoinGecko</a>.
           {' '}The portfolio uses virtual money only. Nothing here is investment advice.
         </p>
